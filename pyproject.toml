@@ -1,0 +1,109 @@
+# Copyright 2022 Canonical Ltd.
+# See LICENSE file for licensing details.
+
+[build-system]
+requires = [
+    "setuptools",
+    "setuptools-scm",
+    "pbr>=2.0.0",
+]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "epa-orchestrator"
+version = "2025.1"
+requires-python = ">=3.10"
+license-files = ["LICENSE"]
+description = "Introspection service"
+readme = "README.md"
+authors = [{ name = "Canonical", email = "openstack-charmers@lists.launchpad.net" }]
+classifiers = [
+    "Environment :: OpenStack",
+    "Environment :: Web Environment",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: Apache Software License",
+    "Operation System :: POSIX :: Linux",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "pydantic",
+    "cryptography>=38.0.0,<42,!=40.0.0,!=40.0.1",  # PyOpenSSL requirements
+]
+
+[project.optional-dependencies]
+dev= [
+    "coverage[toml]",
+    "pytest",
+    "pytest-mock",
+    "mypy",
+]
+
+[project.urls]
+"Homepage" = "https://github.com/canonical/snap-epa-orchestrator"
+"Bug Reports" = "https://github.com/canonical/snap-epa-orchestrator/issues"
+
+
+[tool.setuptools]
+packages = ["epa_orchestrator"]
+
+# Testing tools configuration
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+show_missing = true
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+log_cli_level = "INFO"
+
+# Formatting tools configuration
+[tool.black]
+line-length = 99
+target-version = ["py38"]
+
+[tool.isort]
+profile = "black"
+
+# Linting tools configuration
+[tool.flake8]
+max-line-length = 99
+max-doc-length = 99
+max-complexity = 10
+exclude = [
+    ".git", 
+    "__pycache__", 
+    ".tox", 
+    "build", 
+    "dist", 
+    "*.egg_info", 
+    "venv",
+    ".venv",
+    "env",
+    ".env",
+    "site-packages",
+    "lib/python*/site-packages",
+    ".venv/lib/python*/site-packages"
+]
+select = ["E", "W", "F", "C", "N", "R", "D", "H"]
+# Ignore W503, E501 because using black creates errors with this
+ignore = ["W503", "E501"]
+docstring-convention = "google"
+# Check for properly formatted copyright header in each file
+copyright-check = "True"
+copyright-author = "Canonical Ltd."
+copyright-regexp = "(?i)# SPDX-FileCopyrightText:\\s\\d{4}(-(\\d{4}|present))*"
+#copyright-regexp = "Copyright\\s\\d{4}([-,]\\d{4})*\\s+%(author)s"
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+strict = true
+show_error_codes = true
+pretty = true
