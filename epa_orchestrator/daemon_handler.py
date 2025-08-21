@@ -155,7 +155,9 @@ def handle_get_memory_info(
         return ErrorResponse(error=f"Failed to get memory information: {e}")
 
 
-def handle_allocate_hugepages(request: AllocateHugepagesRequest) -> AllocateHugepagesResponse:
+def handle_allocate_hugepages(
+    request: AllocateHugepagesRequest,
+) -> Union[AllocateHugepagesResponse, ErrorResponse]:
     """Handle allocate hugepages action (tracking only)."""
     try:
         record_allocation(
@@ -176,14 +178,7 @@ def handle_allocate_hugepages(request: AllocateHugepagesRequest) -> AllocateHuge
         )
     except Exception as e:
         logging.error(f"Failed to record hugepage allocation: {e}")
-        return AllocateHugepagesResponse(
-            service_name=request.service_name,
-            hugepages_requested=request.hugepages_requested,
-            allocation_successful=False,
-            message=f"Failed to record hugepage allocation: {e}",
-            node_id=request.node_id,
-            size_kb=request.size_kb,
-        )
+        return ErrorResponse(error=f"Failed to record hugepage allocation: {e}")
 
 
 def handle_daemon_request(data: bytes) -> bytes:

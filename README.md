@@ -223,12 +223,7 @@ Record hugepage allocation request (tracking-only) for a specific NUMA node and 
 ```json
 {
   "version": "1.0",
-  "service_name": "my-service",
-  "hugepages_requested": 2,
-  "allocation_successful": false,
-  "message": "Failed to record hugepage allocation: internal error",
-  "node_id": 0,
-  "size_kb": 2048
+  "error": "Failed to record hugepage allocation: internal error"
 }
 ```
 
